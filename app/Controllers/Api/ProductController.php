@@ -24,7 +24,7 @@ class ProductController
         $products = [
             "products" => $data
         ];
-        return json_encode($products,JSON_PRETTY_PRINT);
+        return json_encode($products, JSON_PRETTY_PRINT);
     }
 
     public function store()
@@ -57,5 +57,21 @@ class ProductController
 
 
         return json_encode(["message" => 'success']);
+    }
+
+    public function destroy()
+    {
+
+        //TODO: add validation - if product is in table
+        $sku[] = $_REQUEST['sku'];
+        if (empty($sku)) {
+            return json_encode(["message" => 'selection is empty']);
+        } else {
+            foreach ($sku as $item) {
+                $this->dbConnection->delete("products", ["sku" => $item]);
+            }
+            return json_encode(["message" => 'success']);
+        }
+
     }
 }
